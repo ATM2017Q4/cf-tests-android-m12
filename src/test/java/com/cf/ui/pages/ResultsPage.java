@@ -38,7 +38,7 @@ public class ResultsPage extends BasePage {
     private AndroidElement applyButton;
 
     @AndroidFindAll(value = {@AndroidBy(id = "com.cf.flightsearch:id/price")})
-    private List<AndroidElement> prices;
+    private static List<AndroidElement> prices;
 
     public ResultsPage(AppiumDriver driver) {
         super(driver);
@@ -71,7 +71,7 @@ public class ResultsPage extends BasePage {
         return this;
     }
 
-    public int getPrice(int index) {
+    public static int getPrice(int index) {
         String[] price = prices.get(index).getText().split("\\$");
         return Integer.parseInt(price[1]);
 

@@ -1,6 +1,7 @@
 package com.cf.ui.tests;
 
 import com.cf.ui.pages.LoadPage;
+import com.cf.ui.pages.ResultsPage;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
@@ -66,7 +67,12 @@ public class CheapFlightsTest {
                 .chooseOrigin("Vienna")
                 .chooseDestination("London")
                 .pickDates("Jun", 7, 17)
-                .submitForm();
+                .submitForm()
+                .openFilters()
+                .chooseNonStopFlights()
+                .modifyLayoverDuration(4, 3)
+                .applyFilters();
+        Assertions.assertTrue(ResultsPage.getPrice(0)<200);
 
 
 //        new FluentWait(driver).withTimeout(10, TimeUnit.SECONDS).ignoring(org.openqa.selenium.NoSuchElementException.class).pollingEvery(1, TimeUnit.SECONDS).until(ExpectedConditions.presenceOfElementLocated(By.id("com.cf.flightsearch:id/closeBtn")));
