@@ -10,6 +10,7 @@ import io.appium.java_client.pagefactory.AndroidFindAll;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
@@ -43,6 +44,11 @@ public class SearchPage extends BasePage {
     @AndroidFindBy(id = "com.cf.flightsearch:id/applyButton")
     private AndroidElement applyButton;
 
+    @AndroidFindBy(id = "com.cf.flightsearch:id/searchImage")
+    private AndroidElement submitButton;
+
+    private By animationView = By.id("com.cf.flightsearch:id/animationView");
+    private By progressIndicator = By.id("com.cf.flightsearch:id/progressIndicator");
 
     public SearchPage chooseOrigin(String originName) {
         origin.click();
@@ -65,11 +71,14 @@ public class SearchPage extends BasePage {
         WebDriverWaits.waitForVisibility(driver, calendar, 10);
         days.get(departureDay + 7).click();
         days.get(returnDay + 7).click();
+        applyButton.click();
         return this;
     }
 
-    public SearchPage submitForm() {
-        applyButton.click();
-        return this;
+    public ResultsPage submitForm() {
+        submitButton.click();
+        WebDriverWaits.waitForInvisibility(driver, animationView, 10);
+        WebDriverWaits.waitForInvisibility(driver, progressIndicator, 60);
+        return new ResultsPage(driver);
     }
 }

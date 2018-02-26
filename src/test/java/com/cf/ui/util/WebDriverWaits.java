@@ -25,4 +25,11 @@ public class WebDriverWaits {
                 .ignoring(org.openqa.selenium.NoSuchElementException.class);
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
+
+    public static Boolean waitForInvisibility(AppiumDriver driver, By by, int timeOut){
+        Wait<AppiumDriver> wait = new FluentWait(driver).withTimeout(timeOut, TimeUnit.SECONDS)
+                .pollingEvery(1, TimeUnit.SECONDS)
+                .ignoring(org.openqa.selenium.NoSuchElementException.class);
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+    }
 }
