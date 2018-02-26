@@ -82,13 +82,11 @@ public class SearchPage extends BasePage {
         int screenWidthCenter = (int) (size.getWidth() * 0.5);
 
         TouchAction action = new TouchAction(driver);
-        while (!(currentMonth.get(0).getText().equals(month) && currentMonth.get(0).getLocation().getY() < screenHeightCenter*0.7)) {
-            action.press(screenHeightCenter, screenWidthCenter).waitAction(Duration.ofSeconds(2)).moveTo(daysOfWeek).release().perform();
+        while (!(currentMonth.get(0).getText().equals(month) && currentMonth.get(0).getLocation().getY() < screenHeightCenter * 0.7)) {
+            action.press(screenHeightCenter, screenWidthCenter).waitAction(Duration.ofSeconds(1)).moveTo(daysOfWeek).release().perform();
         }
-
-        //WebDriverWaits.waitForVisibility(driver, calendar, 10);
-        days.get(departureDay + 7).click();
-        days.get(returnDay + 7).click();
+        days.get(departureDay - 1).click();
+        days.get(returnDay - 1).click();
         applyButton.click();
         return this;
     }
