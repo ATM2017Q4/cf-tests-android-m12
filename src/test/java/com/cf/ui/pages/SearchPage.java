@@ -4,14 +4,17 @@ import com.cf.ui.util.WebDriverWaits;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindAll;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.time.Duration;
 import java.util.List;
 
 public class SearchPage extends BasePage {
@@ -47,6 +50,12 @@ public class SearchPage extends BasePage {
     @AndroidFindBy(id = "com.cf.flightsearch:id/searchImage")
     private AndroidElement submitButton;
 
+    @AndroidFindAll(value = {@AndroidBy(id = "com.cf.flightsearch:id/month")})
+    private List<AndroidElement> currentMonth;
+
+    @AndroidFindBy(id = "com.cf.flightsearch:id/daysOfWeek")
+    private AndroidElement daysOfWeek;
+
     private By animationView = By.id("com.cf.flightsearch:id/animationView");
     private By progressIndicator = By.id("com.cf.flightsearch:id/progressIndicator");
 
@@ -66,9 +75,18 @@ public class SearchPage extends BasePage {
 
     public SearchPage pickDates(String month, int departureDay, int returnDay) {
         datePicker.click();
-        WebElement calendar = driver
-                .findElement(new MobileBy.ByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().textContains(\"" + month + "\"))"));
-        WebDriverWaits.waitForVisibility(driver, calendar, 10);
+//        WebElement calendar = driver
+//                .findElement(new MobileBy.ByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().textContains(\"" + month + "\"))"));
+        Dimension size = driver.manage().window().getSize();
+        int screenHeightCenter = (int) (size.getHeight() * 0.5);
+        int screenWidthCenter = (int) (size.getWidth() * 0.5);
+
+        TouchAction action = new TouchAction(driver);
+        while (!(currentMonth.get(0).getText().equals(month) && currentMonth.get(0).getLocation().getY() < screenHeightCenter*0.7)) {
+            action.press(screenHeightCenter, screenWidthCenter).waitAction(Duration.ofSeconds(2)).moveTo(daysOfWeek).release().perform();
+        }
+
+        //WebDriverWaits.waitForVisibility(driver, calendar, 10);
         days.get(departureDay + 7).click();
         days.get(returnDay + 7).click();
         applyButton.click();

@@ -41,7 +41,7 @@ public class CheapFlightsTest {
         }
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("plarformVersion", "5.1.1");
+        capabilities.setCapability("plarformVersion", "7.1.1");
         capabilities.setCapability("deviceName", "device");
         capabilities.setCapability("app", app.getAbsolutePath());
         capabilities.setCapability("appPackage", "com.cf.flightsearch");
