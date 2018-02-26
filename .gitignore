@@ -1,0 +1,24 @@
+**/bin
+
+#ds_store files
+.DS_Store
+_DS_Store
+*/.DS_Store
+*/_DS_Store
+.DS_Store?
+_DS_Store?
+
+#maven folders
+target/
+target
+/target
+/target/
+
+#ide folders
+.idea/
+*.iml
+/.metadata/
+
+#jar files
+*.jar
+*/*.jar
