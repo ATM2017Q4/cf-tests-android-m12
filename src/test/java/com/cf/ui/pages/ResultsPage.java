@@ -1,11 +1,13 @@
 package com.cf.ui.pages;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AndroidBy;
 import io.appium.java_client.pagefactory.AndroidFindAll;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 
 import java.time.Duration;
@@ -40,6 +42,8 @@ public class ResultsPage extends BasePage {
     @AndroidFindAll(value = {@AndroidBy(id = "com.cf.flightsearch:id/price")})
     private static List<AndroidElement> prices;
 
+    private By durationXpath = By.xpath("//*[@resource-id=\"com.cf.flightsearch:id/durationRow\"]");
+
     public ResultsPage(AppiumDriver driver) {
         super(driver);
     }
@@ -57,12 +61,16 @@ public class ResultsPage extends BasePage {
 
     public ResultsPage modifyLayoverDuration(int divider, int multiplier) {
         TouchAction action = new TouchAction(driver);
-        action.press(averagePriceLayout).waitAction(Duration.ofSeconds(2)).moveTo(toolbar).release().perform();
-        action.press(graph).waitAction().waitAction(Duration.ofSeconds(2)).moveTo(toolbar).release().perform();
+        Dimension screenSize = driver.manage().window().getSize();
+        int screenHeightCenter = (int) (screenSize.getHeight() * 0.6);
+        int screenWidthCenter = (int) (screenSize.getWidth() * 0.6);
+        while ((driver.findElements(durationXpath)).isEmpty()) {
+            action.press(screenHeightCenter, screenWidthCenter).waitAction(Duration.ofSeconds(2)).moveTo(toolbar).release().perform();
+        }
         duration.click();
         Dimension size = originLayoverDurationSlider.getSize();
         int sliderWidth = size.getWidth();
-        action.press(originLayoverDurationSlider).moveTo((sliderWidth / divider), 0).release().perform();
+        action.press(originLayoverDurationSlider).moveTo((sliderWidth-(sliderWidth/divider)), 0).release().perform();
         return this;
     }
 
