@@ -55,9 +55,7 @@ public class CheapFlightsTest {
 
     @Test
     public void searchCheapFlight() {
-
         LoadPage loadPage = new LoadPage(driver);
-
         loadPage.closeSignInOverlay()
                 .chooseOrigin("Vienna")
                 .chooseDestination("London")
@@ -65,10 +63,9 @@ public class CheapFlightsTest {
                 .submitForm()
                 .openFilters()
                 .chooseNonStopFlights()
-                .modifyLayoverDuration(4, 3)
+                .modifyLayoverDuration(0.5)
                 .applyFilters();
         Assertions.assertTrue(ResultsPage.getPrice(0) < 200);
-
     }
 
 

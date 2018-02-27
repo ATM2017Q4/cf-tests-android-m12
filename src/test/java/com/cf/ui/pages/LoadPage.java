@@ -14,7 +14,9 @@ public class LoadPage extends BasePage {
     private By overlayCloseButton = By.id("com.cf.flightsearch:id/closeBtn");
 
     public SearchPage closeSignInOverlay() {
+        logger.info("Waiting for the Sign-in overlay to appear.");
         WebDriverWaits.waitForPresence(driver, overlayCloseButton, 10);
+        logger.info("Closing the overlay.");
         driver.findElement(overlayCloseButton).click();
         return new SearchPage(driver);
     }
